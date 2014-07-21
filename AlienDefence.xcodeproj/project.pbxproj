@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3CB84BF5197C0DB60098F11B /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3CB84BF4197C0DB60098F11B /* Sprites.atlas */; };
+		3CB84BFB197C16740098F11B /* TitleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB84BFA197C16740098F11B /* TitleScene.m */; };
+		3CB84BFF197C17B90098F11B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CB84BFE197C17B90098F11B /* Images.xcassets */; };
+		3CB84C02197C19190098F11B /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB84C01197C19190098F11B /* GameScene.m */; };
+		3CB84C05197C297B0098F11B /* CreepNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB84C04197C297B0098F11B /* CreepNode.m */; };
+		3CB84C08197C3ACA0098F11B /* TowerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB84C07197C3ACA0098F11B /* TowerNode.m */; };
+		3CB84C0B197C3DE70098F11B /* TileNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB84C0A197C3DE70098F11B /* TileNode.m */; };
 		3CF222E51979AAB0002EBC44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF222E41979AAB0002EBC44 /* Foundation.framework */; };
 		3CF222E71979AAB0002EBC44 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF222E61979AAB0002EBC44 /* CoreGraphics.framework */; };
 		3CF222E91979AAB0002EBC44 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF222E81979AAB0002EBC44 /* UIKit.framework */; };
@@ -16,9 +23,6 @@
 		3CF222F71979AAB0002EBC44 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF222F61979AAB0002EBC44 /* AppDelegate.m */; };
 		3CF222FA1979AAB0002EBC44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3CF222F81979AAB0002EBC44 /* Main.storyboard */; };
 		3CF222FD1979AAB1002EBC44 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF222FC1979AAB0002EBC44 /* ViewController.m */; };
-		3CF223001979AAB1002EBC44 /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF222FF1979AAB1002EBC44 /* MyScene.m */; };
-		3CF223021979AAB1002EBC44 /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CF223011979AAB1002EBC44 /* Spaceship.png */; };
-		3CF223041979AAB1002EBC44 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CF223031979AAB1002EBC44 /* Images.xcassets */; };
 		3CF2230B1979AAB1002EBC44 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF2230A1979AAB1002EBC44 /* XCTest.framework */; };
 		3CF2230C1979AAB1002EBC44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF222E41979AAB0002EBC44 /* Foundation.framework */; };
 		3CF2230D1979AAB1002EBC44 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF222E81979AAB0002EBC44 /* UIKit.framework */; };
@@ -37,6 +41,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3CB84BF4197C0DB60098F11B /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sprites.atlas; sourceTree = "<group>"; };
+		3CB84BF9197C16740098F11B /* TitleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleScene.h; sourceTree = "<group>"; };
+		3CB84BFA197C16740098F11B /* TitleScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleScene.m; sourceTree = "<group>"; };
+		3CB84BFE197C17B90098F11B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		3CB84C00197C19190098F11B /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		3CB84C01197C19190098F11B /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		3CB84C03197C297B0098F11B /* CreepNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreepNode.h; sourceTree = "<group>"; };
+		3CB84C04197C297B0098F11B /* CreepNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreepNode.m; sourceTree = "<group>"; };
+		3CB84C06197C3ACA0098F11B /* TowerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TowerNode.h; sourceTree = "<group>"; };
+		3CB84C07197C3ACA0098F11B /* TowerNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TowerNode.m; sourceTree = "<group>"; };
+		3CB84C09197C3DE70098F11B /* TileNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileNode.h; sourceTree = "<group>"; };
+		3CB84C0A197C3DE70098F11B /* TileNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileNode.m; sourceTree = "<group>"; };
 		3CF222E11979AAB0002EBC44 /* AlienDefence.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlienDefence.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CF222E41979AAB0002EBC44 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3CF222E61979AAB0002EBC44 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -51,10 +67,6 @@
 		3CF222F91979AAB0002EBC44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3CF222FB1979AAB0002EBC44 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		3CF222FC1979AAB0002EBC44 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		3CF222FE1979AAB1002EBC44 /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
-		3CF222FF1979AAB1002EBC44 /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
-		3CF223011979AAB1002EBC44 /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
-		3CF223031979AAB1002EBC44 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3CF223091979AAB1002EBC44 /* AlienDefenceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlienDefenceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CF2230A1979AAB1002EBC44 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3CF223121979AAB1002EBC44 /* AlienDefenceTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AlienDefenceTests-Info.plist"; sourceTree = "<group>"; };
@@ -121,16 +133,19 @@
 		3CF222EC1979AAB0002EBC44 /* AlienDefence */ = {
 			isa = PBXGroup;
 			children = (
-				3CF222F51979AAB0002EBC44 /* AppDelegate.h */,
-				3CF222F61979AAB0002EBC44 /* AppDelegate.m */,
-				3CF222F81979AAB0002EBC44 /* Main.storyboard */,
-				3CF222FB1979AAB0002EBC44 /* ViewController.h */,
-				3CF222FC1979AAB0002EBC44 /* ViewController.m */,
-				3CF222FE1979AAB1002EBC44 /* MyScene.h */,
-				3CF222FF1979AAB1002EBC44 /* MyScene.m */,
-				3CF223011979AAB1002EBC44 /* Spaceship.png */,
-				3CF223031979AAB1002EBC44 /* Images.xcassets */,
+				3CB84BF9197C16740098F11B /* TitleScene.h */,
+				3CB84BFA197C16740098F11B /* TitleScene.m */,
+				3CB84C00197C19190098F11B /* GameScene.h */,
+				3CB84C01197C19190098F11B /* GameScene.m */,
+				3CB84C03197C297B0098F11B /* CreepNode.h */,
+				3CB84C04197C297B0098F11B /* CreepNode.m */,
+				3CB84C06197C3ACA0098F11B /* TowerNode.h */,
+				3CB84C07197C3ACA0098F11B /* TowerNode.m */,
+				3CB84C09197C3DE70098F11B /* TileNode.h */,
+				3CB84C0A197C3DE70098F11B /* TileNode.m */,
+				3CB84BF4197C0DB60098F11B /* Sprites.atlas */,
 				3CF222ED1979AAB0002EBC44 /* Supporting Files */,
+				3CB84BFE197C17B90098F11B /* Images.xcassets */,
 			);
 			path = AlienDefence;
 			sourceTree = "<group>";
@@ -138,6 +153,11 @@
 		3CF222ED1979AAB0002EBC44 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3CF222FB1979AAB0002EBC44 /* ViewController.h */,
+				3CF222FC1979AAB0002EBC44 /* ViewController.m */,
+				3CF222F51979AAB0002EBC44 /* AppDelegate.h */,
+				3CF222F81979AAB0002EBC44 /* Main.storyboard */,
+				3CF222F61979AAB0002EBC44 /* AppDelegate.m */,
 				3CF222EE1979AAB0002EBC44 /* AlienDefence-Info.plist */,
 				3CF222EF1979AAB0002EBC44 /* InfoPlist.strings */,
 				3CF222F21979AAB0002EBC44 /* main.m */,
@@ -241,8 +261,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CF222F11979AAB0002EBC44 /* InfoPlist.strings in Resources */,
-				3CF223041979AAB1002EBC44 /* Images.xcassets in Resources */,
-				3CF223021979AAB1002EBC44 /* Spaceship.png in Resources */,
+				3CB84BFF197C17B90098F11B /* Images.xcassets in Resources */,
+				3CB84BF5197C0DB60098F11B /* Sprites.atlas in Resources */,
 				3CF222FA1979AAB0002EBC44 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,8 +282,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3CF223001979AAB1002EBC44 /* MyScene.m in Sources */,
+				3CB84BFB197C16740098F11B /* TitleScene.m in Sources */,
+				3CB84C0B197C3DE70098F11B /* TileNode.m in Sources */,
 				3CF222FD1979AAB1002EBC44 /* ViewController.m in Sources */,
+				3CB84C02197C19190098F11B /* GameScene.m in Sources */,
+				3CB84C08197C3ACA0098F11B /* TowerNode.m in Sources */,
+				3CB84C05197C297B0098F11B /* CreepNode.m in Sources */,
 				3CF222F71979AAB0002EBC44 /* AppDelegate.m in Sources */,
 				3CF222F31979AAB0002EBC44 /* main.m in Sources */,
 			);
@@ -472,6 +496,7 @@
 				3CF2231C1979AAB1002EBC44 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3CF2231D1979AAB1002EBC44 /* Build configuration list for PBXNativeTarget "AlienDefenceTests" */ = {
 			isa = XCConfigurationList;
@@ -480,6 +505,7 @@
 				3CF2231F1979AAB1002EBC44 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

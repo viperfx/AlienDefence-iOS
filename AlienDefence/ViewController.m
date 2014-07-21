@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "MyScene.h"
+#import "TitleScene.h"
 
 @implementation ViewController
 
@@ -21,8 +21,8 @@
     skView.showsNodeCount = YES;
     
     // Create and configure the scene.
-    SKScene * scene = [MyScene sceneWithSize:skView.bounds.size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
+    SKScene * scene = [TitleScene sceneWithSize:skView.bounds.size];
+    scene.scaleMode = SKSceneScaleModeResizeFill;
     
     // Present the scene.
     [skView presentScene:scene];
@@ -31,6 +31,10 @@
 - (BOOL)shouldAutorotate
 {
     return YES;
+}
+
+- (BOOL) prefersStatusBarHidden {
+  return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
