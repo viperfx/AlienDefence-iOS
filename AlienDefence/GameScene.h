@@ -12,6 +12,10 @@
   UISwipeGestureRecognizer* swipeLeftGesture;
 }
 @property (nonatomic, strong) SKSpriteNode* creep;
+@property (nonatomic, strong) SKSpriteNode* tiles;
 @property (nonatomic, strong) NSArray *towerBases;
 @property (nonatomic, strong) NSMutableArray *towers;
+@property (nonatomic, strong) SKSpriteNode* selectedTower;
+@property (nonatomic) BOOL isTowerSelected;
+@property (nonatomic) NSTimeInterval timeOfLastMove;
 @end

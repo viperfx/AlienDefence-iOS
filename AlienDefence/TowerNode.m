@@ -21,8 +21,8 @@
     self.zRotation = self.zRotation + M_PI * 2;
   }
   float angle = [self getRotationWithPoint:cannonPointOnScene endPoint:target];
-//  [self runAction:[SKAction rotateToAngle:angle duration:1.0f]];
-  self.zRotation = angle;
+  [self runAction:[SKAction rotateToAngle:angle duration:1.0f]];
+//  self.zRotation = angle;
   SKSpriteNode *bullet = [SKSpriteNode spriteNodeWithImageNamed:@"bullet_6"];
   bullet.position = CGPointMake(cannonPointOnScene.x, cannonPointOnScene.y);
   bullet.color = [SKColor greenColor];
@@ -30,8 +30,8 @@
   bullet.alpha = 0.4;
   bullet.anchorPoint = CGPointMake(0.5, 0.5);
   bullet.zRotation = angle;
-  [self.parent.parent addChild:bullet];
-  SKAction *move = [SKAction moveTo:target duration:0.2];
+  [self.parent addChild:bullet];
+  SKAction *move = [SKAction moveTo:target duration:0.5];
   [bullet runAction:move completion:^{
     [bullet removeFromParent];
   }];

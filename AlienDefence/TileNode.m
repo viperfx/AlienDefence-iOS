@@ -11,8 +11,7 @@
 @implementation TileNode
 +(instancetype) drawTilesWithFrame:(CGRect)frame {
   TileNode *tiles = [self spriteNodeWithImageNamed:@"tiles"];
-  tiles.position = CGPointMake(40, 60);
-  tiles.anchorPoint = CGPointMake(0, 0);
+  tiles.position = CGPointMake(40+(tiles.size.width/2), 60+(tiles.size.height/2));
   tiles.name = @"tiles";
   return tiles;
 }
