@@ -32,7 +32,15 @@
     [self addChild:_tiles];
     [self addCreep];
     
-    self.towerBases = @[[NSValue valueWithCGPoint:CGPointMake(40+(69/4),60+(69/4))], [NSValue valueWithCGPoint:CGPointMake(149*0.5+(69/4), 60+(69/4))]];
+    self.towerBases = @[
+                        [NSValue valueWithCGPoint:CGPointMake(40+(69/4),60+(69/4))],
+                        [NSValue valueWithCGPoint:CGPointMake(149*0.5+(69/4),60+(69/4))],
+                        [NSValue valueWithCGPoint:CGPointMake(218*0.5+(69/4),120*0.5+(69/4))],
+                        [NSValue valueWithCGPoint:CGPointMake(285*0.5+(69/4),120*0.5+(69/4))],
+                        [NSValue valueWithCGPoint:CGPointMake(354*0.5+(69/4),120*0.5+(69/4))],
+                        [NSValue valueWithCGPoint:CGPointMake(423*0.5+(69/4),120*0.5+(69/4))],
+                        [NSValue valueWithCGPoint:CGPointMake(492*0.5+(69/4),120*0.5+(69/4))],
+                        [NSValue valueWithCGPoint:CGPointMake(561*0.5+(69/4),120*0.5+(69/4))]];
     
     //SKSpriteNode *upgrade = [SKSpriteNode spriteNodeWithImageNamed:@"upgrade"];
     //upgrade.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
@@ -44,6 +52,7 @@
     turretOne.position = [[self.towerBases objectAtIndex:0] CGPointValue];
     turretTwo.position = [[self.towerBases objectAtIndex:1] CGPointValue];
     self.towers = [[NSMutableArray alloc] init];
+    _towerBaseBounds = [[NSMutableArray alloc] init];
     [self.towers addObject:turretOne];
     [self.towers addObject:turretTwo];
     [self addChild:turretOne];
@@ -55,6 +64,26 @@
       [turretIconSprite setName:@"movable"];
       [turretIconSprite setPosition:CGPointMake(CGRectGetMaxX(self.frame)-100-[turretIconNames indexOfObject:turretIconName]*40, 30)];
       [self addChild:turretIconSprite];
+    }
+    for (TowerNode *tower in _towers) {
+      CGRect touchFrame = CGRectInset(tower.frame, -9, -8);
+      CGPathRef path = CGPathCreateWithRect(touchFrame,NULL);
+      SKShapeNode *shape = [SKShapeNode node];
+      shape.path = path;
+      shape.strokeColor = [SKColor colorWithRed:1.0 green:0 blue:0 alpha:0.2];
+      [self addChild:shape];
+    }
+    for (NSValue *base in _towerBases) {
+      CGPoint basePoint = [base CGPointValue];
+      CGRect baseRect = CGRectMake(basePoint.x, basePoint.y, 0, 0);
+      CGRect expandedRect = CGRectInset(baseRect, -69/4, -69/4);
+      [_towerBaseBounds addObject:[NSValue valueWithCGRect:expandedRect]];
+//      CGPathRef path = CGPathCreateWithRect(expandedRect,NULL);
+//      SKShapeNode *shape = [SKShapeNode node];
+//      shape.path = path;
+//      shape.strokeColor = [SKColor colorWithRed:0 green:1.0 blue:0 alpha:0.2];
+//      shape.userInteractionEnabled = false;
+//      [self addChild:shape];
     }
   }
   return self;
@@ -92,30 +121,46 @@
 }
 
 - (void) selectNodeForTouch:(CGPoint)touchLocation {
+  bool spotTaken = false;
   SKSpriteNode *touchedNode = (SKSpriteNode*)[self nodeAtPoint:touchLocation];
 	if(![_selectedTower isEqual:touchedNode]) {
 
     if (_isTowerSelected) {
-      for (SKSpriteNode *tower in _towers) {
-        NSLog(@"%@", NSStringFromCGPoint(touchLocation));
-        NSLog(@"%@", NSStringFromCGPoint([_tiles convertPoint:touchLocation toNode:tower]));
-        NSLog(@"%@", NSStringFromCGRect(tower.frame));
-        if (CGRectContainsPoint(tower.frame, touchLocation)) {
-          NSLog(@"inside %@", NSStringFromCGPoint(touchLocation));
+      for (TowerNode *tower in _towers) {
+        CGRect touchFrame = CGRectInset(tower.frame, -9, -8);
+        if (CGRectContainsPoint(touchFrame, touchLocation)) {
+          NSLog(@"%@", tower);
+          spotTaken = true;
         }
       }
-      
-      TowerNode *turretPlaced = [TowerNode towerOfType:TowerOne withLevel:3];
-      [turretPlaced setPosition:[[_towerBases objectAtIndex:1] CGPointValue]];
-      [_tiles addChild:turretPlaced];
-      [_towers addObject:turretPlaced];
-      _isTowerSelected = NO;
+      if (spotTaken) {
+        [_selectedTower removeAllActions];
+        [_selectedTower runAction:[SKAction rotateToAngle:0.0f duration:0.1]];
+        [_selectedTower setScale:1.0f];
+        _isTowerSelected = NO;
+      }else{
+        for (NSValue *base in _towerBaseBounds) {
+          CGRect baseRect = [base CGRectValue];
+
+          if (CGRectContainsPoint(baseRect, touchLocation)) {
+            NSLog(@"%@", NSStringFromCGPoint(touchLocation));
+            NSLog(@"%@", NSStringFromCGRect(baseRect));
+            TowerNode *turretPlaced = [TowerNode towerOfType:TowerOne withLevel:3];
+            [turretPlaced setPosition:[[_towerBases objectAtIndex:[_towerBaseBounds indexOfObject:base]]CGPointValue]];
+            [self addChild:turretPlaced];
+            [_towers addObject:turretPlaced];
+            _isTowerSelected = NO;
+          }
+        }
+        
+      }
     }
     
 		[_selectedTower removeAllActions];
 		[_selectedTower runAction:[SKAction rotateToAngle:0.0f duration:0.1]];
     [_selectedTower setScale:1.0f];
 		_selectedTower = touchedNode;
+  
     
 		if([[touchedNode name] isEqualToString:@"movable"]) {
       [_selectedTower setScale:1.5f];
