@@ -23,15 +23,14 @@
   return tower;
 }
 -(void) pointToTargetAtPoint:(CGPoint)target {
-  CGPoint cannonPointOnScene = [self.scene convertPoint:self.position fromNode:self.parent];
   if (self.zRotation < 0) {
     self.zRotation = self.zRotation + M_PI * 2;
   }
-  float angle = [self getRotationWithPoint:cannonPointOnScene endPoint:target];
+  float angle = [self getRotationWithPoint:self.position endPoint:target];
   [self runAction:[SKAction rotateToAngle:angle duration:1.0f]];
 //  self.zRotation = angle;
   SKSpriteNode *bullet = [SKSpriteNode spriteNodeWithImageNamed:@"bullet_6"];
-  bullet.position = CGPointMake(cannonPointOnScene.x, cannonPointOnScene.y);
+  bullet.position = CGPointMake(self.position.x, self.position.y);
   bullet.color = [SKColor greenColor];
   bullet.colorBlendFactor = 0.7;
   bullet.alpha = 0.4;

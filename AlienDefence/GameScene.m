@@ -58,7 +58,7 @@
                   @{@"creepType": [NSNumber numberWithInteger:CreepTwo], @"count": @10}
                   ];
     _waveNumber = 0;
-    SKAction *wait = [SKAction waitForDuration:30];
+    SKAction *wait = [SKAction waitForDuration:50];
     SKAction *performSelector = [SKAction performSelector:@selector(addCreepWave) onTarget:self];
     SKAction *sequence = [SKAction sequence:@[performSelector, wait]];
     SKAction *repeat   = [SKAction repeatAction:sequence count:[_waveData count]];
@@ -123,7 +123,7 @@
 }
 - (void) addCreepWave {
   NSDictionary *creepWave = [_waveData objectAtIndex:_waveNumber];
-  SKAction *wait = [SKAction waitForDuration:2.5];
+  SKAction *wait = [SKAction waitForDuration:5];
   SKAction *performSelector = [SKAction performSelector:@selector(addCreep) onTarget:self];
   SKAction *sequence = [SKAction sequence:@[performSelector, wait]];
   SKAction *repeat   = [SKAction repeatAction:sequence count:[[creepWave objectForKey:@"count"] intValue]];
@@ -139,7 +139,8 @@
   [self addChild:creep];
   [_creeps addObject:creep];
   [creep runAction:_followline];
-  NSLog(@"creep added");
+  NSLog(@"creep added %p", creep);
+  
 }
 - (void) didMoveToView:(SKView *)view {
   swipeRightGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
@@ -164,13 +165,39 @@
     firstBody = contact.bodyB;
     secondBody = contact.bodyA;
   }
-  NSLog(@"bodyA:%@ bodyB:%@",contact.bodyA.node.name, contact.bodyB.node.name);
+//  NSLog(@"enter bodyA:%@ bodyB:%@",contact.bodyA.node.name, contact.bodyB.node.name);
   if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskTower) {
     CreepNode *creep = (CreepNode*) firstBody.node;
     TowerNode *tower = (TowerNode*) secondBody.node;
-    [tower pointToTargetAtPoint:creep.position];
+    tower.target = creep;
+    NSLog(@"creep set %p", creep);
+//    tower.userData = [NSMutableDictionary dictionaryWithObject:creep forKey:@"target"];
   }else if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskBullet) {
-    NSLog(@"Creep Hit!");
+//    NSLog(@"Creep Hit!");
+  }
+}
+
+-(void)didEndContact:(SKPhysicsContact *)contact {
+  SKPhysicsBody* firstBody;
+  SKPhysicsBody* secondBody;
+  
+  if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+  {
+    firstBody = contact.bodyA;
+    secondBody = contact.bodyB;
+  }
+  else
+  {
+    firstBody = contact.bodyB;
+    secondBody = contact.bodyA;
+  }
+//  NSLog(@"exit bodyA:%@ bodyB:%@",contact.bodyA.node.name, contact.bodyB.node.name);
+  if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskTower) {
+    TowerNode *tower = (TowerNode*) secondBody.node;
+    tower.target = nil;
+//    [tower.userData removeObjectForKey:@"target"];
+  }else if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskBullet) {
+//    NSLog(@"Creep Hit!");
   }
 }
 - (void) handleSwipeRight:(UISwipeGestureRecognizer*) recogniser {
@@ -242,19 +269,17 @@
 }
 
 - (void) update:(NSTimeInterval)currentTime {
-  if (currentTime - self.timeOfLastMove < 0.2) return;
-  [self gameLoop:currentTime];
-}
-
-- (void)gameLoop:(NSTimeInterval)currentTime {
-//  for (TowerNode *tower in _towers) {
-//    for (CreepNode *creep in _creeps) {
-//      if ([self isCreepinRange:50 creep:creep.position tower:tower.position]) {
-//        [tower pointToTargetAtPoint:creep.position];
-//      }
-//    }
-//  }
-//  self.timeOfLastMove = currentTime;
+  if (currentTime - self.timeOfLastMove < 0.5) return;
+  [self enumerateChildNodesWithName:@"tower" usingBlock:^(SKNode *node, BOOL *stop) {
+    TowerNode *tower = (TowerNode*) node;
+//    CreepNode *creep = [tower.userData objectForKey:@"target"];
+    NSLog(@"%p %p", tower, tower.target);
+    if (tower.target) {
+      [tower pointToTargetAtPoint:tower.target.position];
+    }
+    
+  }];
+  self.timeOfLastMove = currentTime;
 }
 
 - (bool) isCreepinRange:(int) range creep:(CGPoint) creep tower:(CGPoint) tower {
