@@ -10,7 +10,7 @@
 #import "CreepNode.h"
 #import "TileNode.h"
 #import "TowerNode.h"
-
+#import "Util.h"
 @implementation GameScene
 
 -(id)initWithSize:(CGSize)size {
@@ -30,7 +30,7 @@
     //[self addChild:panels];
     _tiles = [TileNode drawTilesWithFrame:self.frame];
     [self addChild:_tiles];
-    
+    self.physicsWorld.contactDelegate = self;
     self.towerBases = @[
                         [NSValue valueWithCGPoint:CGPointMake(40+(69/4),60+(69/4))],
                         [NSValue valueWithCGPoint:CGPointMake(149*0.5+(69/4),60+(69/4))],
@@ -150,7 +150,29 @@
   [swipeRightGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
   [view addGestureRecognizer:swipeLeftGesture];
 }
-
+-(void)didBeginContact:(SKPhysicsContact *)contact {
+  SKPhysicsBody* firstBody;
+  SKPhysicsBody* secondBody;
+  
+  if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+  {
+    firstBody = contact.bodyA;
+    secondBody = contact.bodyB;
+  }
+  else
+  {
+    firstBody = contact.bodyB;
+    secondBody = contact.bodyA;
+  }
+  NSLog(@"bodyA:%@ bodyB:%@",contact.bodyA.node.name, contact.bodyB.node.name);
+  if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskTower) {
+    CreepNode *creep = (CreepNode*) firstBody.node;
+    TowerNode *tower = (TowerNode*) secondBody.node;
+    [tower pointToTargetAtPoint:creep.position];
+  }else if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskBullet) {
+    NSLog(@"Creep Hit!");
+  }
+}
 - (void) handleSwipeRight:(UISwipeGestureRecognizer*) recogniser {
   NSLog(@"Swipe Right");
 }
@@ -160,14 +182,8 @@
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//  for (UITouch *touch in touches) {
-//    CGPoint position = [touch locationInNode:self];
-//    NSLog(@"%@", NSStringFromCGPoint(position));
-//    NSLog(@"%@", NSStringFromCGPoint([self tileCoordForPosition:position]));
-//  }
   UITouch *touch = [touches anyObject];
   CGPoint positionInScene = [touch locationInNode:self];
-//  NSLog(@"%@", NSStringFromCGPoint(positionInScene));
   [self selectNodeForTouch:positionInScene];
   
 }
@@ -231,17 +247,14 @@
 }
 
 - (void)gameLoop:(NSTimeInterval)currentTime {
-  
-  //NSLog(@"%@", NSStringFromCGPoint(position));
-  for (TowerNode *tower in _towers) {
-    //NSLog(@"%@", NSStringFromCGPoint(position));
-    for (CreepNode *creep in _creeps) {
-      if ([self isCreepinRange:50 creep:creep.position tower:tower.position]) {
-        [tower pointToTargetAtPoint:creep.position];
-      }
-    }
-  }
-  self.timeOfLastMove = currentTime;
+//  for (TowerNode *tower in _towers) {
+//    for (CreepNode *creep in _creeps) {
+//      if ([self isCreepinRange:50 creep:creep.position tower:tower.position]) {
+//        [tower pointToTargetAtPoint:creep.position];
+//      }
+//    }
+//  }
+//  self.timeOfLastMove = currentTime;
 }
 
 - (bool) isCreepinRange:(int) range creep:(CGPoint) creep tower:(CGPoint) tower {

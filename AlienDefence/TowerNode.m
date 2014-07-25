@@ -7,12 +7,19 @@
 //
 
 #import "TowerNode.h"
-
+#import "Util.h"
 @implementation TowerNode
 +(instancetype) towerOfType:(TowerType)type withLevel:(NSInteger)level{
   TowerNode *tower;
   tower = [self spriteNodeWithImageNamed:[NSString stringWithFormat:@"turret-%d-%d",type, level]];
   tower.anchorPoint = CGPointMake(0.5, 0.5);
+  tower.name = @"tower";
+  tower.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:50];
+  tower.physicsBody.dynamic = YES;
+  tower.physicsBody.affectedByGravity = NO;
+  tower.physicsBody.categoryBitMask = CollisionMaskTower;
+  tower.physicsBody.contactTestBitMask = CollisionMaskCreep;
+  tower.physicsBody.collisionBitMask = 0;
   return tower;
 }
 -(void) pointToTargetAtPoint:(CGPoint)target {
@@ -28,8 +35,14 @@
   bullet.color = [SKColor greenColor];
   bullet.colorBlendFactor = 0.7;
   bullet.alpha = 0.4;
+  bullet.name = @"bullet";
   bullet.anchorPoint = CGPointMake(0.5, 0.5);
   bullet.zRotation = angle;
+  bullet.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(1, 1)];
+  bullet.physicsBody.dynamic = NO;
+  bullet.physicsBody.categoryBitMask = CollisionMaskBullet;
+  bullet.physicsBody.contactTestBitMask = CollisionMaskCreep;
+  bullet.physicsBody.collisionBitMask = 0;
   [self.parent addChild:bullet];
   SKAction *move = [SKAction moveTo:target duration:0.5];
   [bullet runAction:move completion:^{

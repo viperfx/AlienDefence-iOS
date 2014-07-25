@@ -7,7 +7,7 @@
 //
 
 #import "CreepNode.h"
-
+#import "Util.h"
 @implementation CreepNode
 +(instancetype) creepOfType:(CreepType)type {
   CreepNode *creep;
@@ -32,7 +32,13 @@
   }else{
     creep = [self spriteNodeWithImageNamed:@"boss"];
   }
-
+  creep.name = @"creep";
+  creep.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:creep.frame.size];
+  creep.physicsBody.dynamic = YES;
+  creep.physicsBody.affectedByGravity = NO;
+  creep.physicsBody.categoryBitMask = CollisionMaskCreep;
+  creep.physicsBody.contactTestBitMask = CollisionMaskTower;
+  creep.physicsBody.collisionBitMask = 0;
   return creep;
 }
 @end

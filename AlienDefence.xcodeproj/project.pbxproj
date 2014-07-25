@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C477A461982686400458DF9 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C477A451982686400458DF9 /* Util.m */; };
 		3CB84BF5197C0DB60098F11B /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3CB84BF4197C0DB60098F11B /* Sprites.atlas */; };
 		3CB84BFB197C16740098F11B /* TitleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB84BFA197C16740098F11B /* TitleScene.m */; };
 		3CB84BFF197C17B90098F11B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CB84BFE197C17B90098F11B /* Images.xcassets */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3C477A441982686400458DF9 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		3C477A451982686400458DF9 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		3CB84BF4197C0DB60098F11B /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sprites.atlas; sourceTree = "<group>"; };
 		3CB84BF9197C16740098F11B /* TitleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleScene.h; sourceTree = "<group>"; };
 		3CB84BFA197C16740098F11B /* TitleScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleScene.m; sourceTree = "<group>"; };
@@ -133,6 +136,8 @@
 		3CF222EC1979AAB0002EBC44 /* AlienDefence */ = {
 			isa = PBXGroup;
 			children = (
+				3C477A441982686400458DF9 /* Util.h */,
+				3C477A451982686400458DF9 /* Util.m */,
 				3CB84BF9197C16740098F11B /* TitleScene.h */,
 				3CB84BFA197C16740098F11B /* TitleScene.m */,
 				3CB84C00197C19190098F11B /* GameScene.h */,
@@ -290,6 +295,7 @@
 				3CB84C05197C297B0098F11B /* CreepNode.m in Sources */,
 				3CF222F71979AAB0002EBC44 /* AppDelegate.m in Sources */,
 				3CF222F31979AAB0002EBC44 /* main.m in Sources */,
+				3C477A461982686400458DF9 /* Util.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

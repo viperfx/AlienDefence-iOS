@@ -7,7 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
-@interface GameScene : SKScene <UIGestureRecognizerDelegate> {
+@interface GameScene : SKScene <UIGestureRecognizerDelegate, SKPhysicsContactDelegate> {
   UISwipeGestureRecognizer* swipeRightGesture;
   UISwipeGestureRecognizer* swipeLeftGesture;
 }
