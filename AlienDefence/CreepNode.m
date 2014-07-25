@@ -23,10 +23,10 @@
     SKAction *animation = [SKAction animateWithTextures:textures timePerFrame:0.2];
     [creep runAction:[SKAction repeatActionForever:animation]];
   }else if (type == CreepTwo) {
-    creep = [self spriteNodeWithImageNamed:@"boss-1"];
-    textures = @[[SKTexture textureWithImageNamed:@"boss-2"],
-                 [SKTexture textureWithImageNamed:@"boss-3"],
-                 [SKTexture textureWithImageNamed:@"boss-4"]];
+    creep = [self spriteNodeWithImageNamed:@"creep_2b_1"];
+    textures = @[[SKTexture textureWithImageNamed:@"creep_2b_2"],
+                 [SKTexture textureWithImageNamed:@"creep_2b_3"],
+                 [SKTexture textureWithImageNamed:@"creep_2b_4"]];
     SKAction *animation = [SKAction animateWithTextures:textures timePerFrame:0.2];
     [creep runAction:[SKAction repeatActionForever:animation]];
   }else{
