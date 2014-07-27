@@ -16,11 +16,12 @@ typedef NS_ENUM(NSUInteger, TowerType) {
 
 @interface TowerNode : SKSpriteNode
 +(instancetype) towerOfType:(TowerType)type withLevel:(NSInteger)level;
-@property (retain, nonatomic) SKSpriteNode *target;
+@property (nonatomic, strong) SKSpriteNode *target;
+@property (nonatomic) int damage;
 @end
 @interface TowerNode ()
 
--(void) pointToTargetAtPoint:(CGPoint)target;
+-(void) pointToTargetAtPoint:(SKSpriteNode*)target;
 -(float) getRotationWithPoint:(CGPoint)spoint endPoint:(CGPoint)epoint;
--(void) shootAt:(SKSpriteNode*)creep;
+-(void) damageEnemy:(SKSpriteNode*) enemy;
 @end

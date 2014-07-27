@@ -139,7 +139,7 @@
   [self addChild:creep];
   [_creeps addObject:creep];
   [creep runAction:_followline];
-  NSLog(@"creep added %p", creep);
+  NSLog(@"creep added");
   
 }
 - (void) didMoveToView:(SKView *)view {
@@ -165,15 +165,14 @@
     firstBody = contact.bodyB;
     secondBody = contact.bodyA;
   }
-//  NSLog(@"enter bodyA:%@ bodyB:%@",contact.bodyA.node.name, contact.bodyB.node.name);
   if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskTower) {
     CreepNode *creep = (CreepNode*) firstBody.node;
     TowerNode *tower = (TowerNode*) secondBody.node;
     tower.target = creep;
-    NSLog(@"creep set %p", creep);
-//    tower.userData = [NSMutableDictionary dictionaryWithObject:creep forKey:@"target"];
   }else if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskBullet) {
-//    NSLog(@"Creep Hit!");
+    CreepNode *creep = (CreepNode*) firstBody.node;
+    TowerNode *tower = (TowerNode*) secondBody.node.parent;
+    [tower damageEnemy:creep];
   }
 }
 
@@ -191,11 +190,12 @@
     firstBody = contact.bodyB;
     secondBody = contact.bodyA;
   }
-//  NSLog(@"exit bodyA:%@ bodyB:%@",contact.bodyA.node.name, contact.bodyB.node.name);
   if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskTower) {
     TowerNode *tower = (TowerNode*) secondBody.node;
-    tower.target = nil;
-//    [tower.userData removeObjectForKey:@"target"];
+    CreepNode *creep = (CreepNode*) firstBody.node;
+    if (tower.target == creep) {
+      tower.target = nil;
+    }
   }else if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskBullet) {
 //    NSLog(@"Creep Hit!");
   }
@@ -237,8 +237,6 @@
         for (NSValue *base in _towerBaseBounds) {
           CGRect baseRect = [base CGRectValue];
           if (CGRectContainsPoint(baseRect, touchLocation)) {
-//            NSLog(@"%@", NSStringFromCGPoint(touchLocation));
-//            NSLog(@"%@", NSStringFromCGRect(baseRect));
             TowerNode *turretPlaced = [TowerNode towerOfType:TowerOne withLevel:3];
             
             [turretPlaced setPosition:[[_towerBases objectAtIndex:[_towerBaseBounds indexOfObject:base]]CGPointValue]];
@@ -272,10 +270,8 @@
   if (currentTime - self.timeOfLastMove < 0.5) return;
   [self enumerateChildNodesWithName:@"tower" usingBlock:^(SKNode *node, BOOL *stop) {
     TowerNode *tower = (TowerNode*) node;
-//    CreepNode *creep = [tower.userData objectForKey:@"target"];
-    NSLog(@"%p %p", tower, tower.target);
     if (tower.target) {
-      [tower pointToTargetAtPoint:tower.target.position];
+      [tower pointToTargetAtPoint:tower.target];
     }
     
   }];

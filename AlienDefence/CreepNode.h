@@ -16,5 +16,5 @@ typedef NS_ENUM(NSUInteger, CreepType) {
 
 @interface CreepNode : SKSpriteNode
 +(instancetype) creepOfType:(CreepType)type;
-
+@property (nonatomic) int health;
 @end

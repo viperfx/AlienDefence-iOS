@@ -15,6 +15,7 @@
   
   if (type == CreepOne) {
     creep = [self spriteNodeWithImageNamed:@"creep_1r_1"];
+    creep.health = 80;
     textures = @[[SKTexture textureWithImageNamed:@"creep_1r_2"],
                  [SKTexture textureWithImageNamed:@"creep_1r_3"],
                  [SKTexture textureWithImageNamed:@"creep_1r_4"],
@@ -24,6 +25,7 @@
     [creep runAction:[SKAction repeatActionForever:animation]];
   }else if (type == CreepTwo) {
     creep = [self spriteNodeWithImageNamed:@"creep_2b_1"];
+    creep.health = 100;
     textures = @[[SKTexture textureWithImageNamed:@"creep_2b_2"],
                  [SKTexture textureWithImageNamed:@"creep_2b_3"],
                  [SKTexture textureWithImageNamed:@"creep_2b_4"]];
