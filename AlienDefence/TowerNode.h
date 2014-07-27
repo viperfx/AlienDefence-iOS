@@ -23,5 +23,5 @@ typedef NS_ENUM(NSUInteger, TowerType) {
 
 -(void) pointToTargetAtPoint:(SKSpriteNode*)target;
 -(float) getRotationWithPoint:(CGPoint)spoint endPoint:(CGPoint)epoint;
--(void) damageEnemy:(SKSpriteNode*) enemy;
+-(void) damageEnemy:(SKSpriteNode*) enemy onKill:(void (^)()) killHandler;
 @end

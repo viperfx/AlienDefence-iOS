@@ -23,11 +23,21 @@
     SKSpriteNode *ship = [SKSpriteNode spriteNodeWithImageNamed:@"ship_dmg_low"];
     ship.position = CGPointMake(CGRectGetMaxX(self.frame)-ship.frame.size.width/2, CGRectGetMidY(self.frame));
     [self addChild:ship];
-    
-    //SKSpriteNode *panels = [SKSpriteNode spriteNodeWithImageNamed:@"hud"];
-    //panels.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)-30);
-    //    tiles.anchorPoint = CGPointMake(0, 0);
-    //[self addChild:panels];
+    _score = 0;
+    SKSpriteNode *panels = [SKSpriteNode spriteNodeWithImageNamed:@"hud_points"];
+    panels.position = CGPointMake(29, 15);
+    panels.anchorPoint = CGPointMake(0, 0);
+    panels.name = @"hud";
+    SKLabelNode *score = [SKLabelNode labelNodeWithFontNamed:@"Menlo-Regular"];
+    score.text = [NSString stringWithFormat:@"%d",_score];
+    score.fontSize = 13;
+    score.fontColor = [SKColor greenColor];
+    score.position = CGPointMake(5, 6);
+    score.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+    score.name = @"scoreNode";
+    _tiles.anchorPoint = CGPointMake(0, 0);
+    [self addChild:panels];
+    [panels addChild:score];
     _tiles = [TileNode drawTilesWithFrame:self.frame];
     [self addChild:_tiles];
     self.physicsWorld.contactDelegate = self;
@@ -102,15 +112,16 @@
       [turretIconSprite setPosition:CGPointMake(CGRectGetMaxX(self.frame)-100-[turretIconNames indexOfObject:turretIconName]*40, 30)];
       [self addChild:turretIconSprite];
     }
-    for (TowerNode *tower in _towers) {
-        CGMutablePathRef circle = CGPathCreateMutable();
-        CGPathAddArc(circle, NULL, tower.position.x, tower.position.y, 50, 0, 2*M_PI, true);
-        CGPathCloseSubpath(circle);
-        SKShapeNode *shape = [SKShapeNode node];
-        shape.path = circle;
-        shape.strokeColor = [SKColor colorWithRed:1.0 green:0 blue:0 alpha:0.2];
-        [self addChild:shape];
-    }
+// Tower debug range
+//    for (TowerNode *tower in _towers) {
+//        CGMutablePathRef circle = CGPathCreateMutable();
+//        CGPathAddArc(circle, NULL, tower.position.x, tower.position.y, 50, 0, 2*M_PI, true);
+//        CGPathCloseSubpath(circle);
+//        SKShapeNode *shape = [SKShapeNode node];
+//        shape.path = circle;
+//        shape.strokeColor = [SKColor colorWithRed:1.0 green:0 blue:0 alpha:0.2];
+//        [self addChild:shape];
+//    }
     for (NSValue *base in _towerBases) {
       CGPoint basePoint = [base CGPointValue];
       CGRect baseRect = CGRectMake(basePoint.x, basePoint.y, 0, 0);
@@ -142,6 +153,11 @@
   NSLog(@"creep added");
   
 }
+- (void) didKillEnemy {
+  SKNode *hud = [self childNodeWithName:@"hud"];
+  SKLabelNode *label = (SKLabelNode*)[hud childNodeWithName:@"scoreNode"];
+  [label setText:[NSString stringWithFormat:@"%d", _score+=10]];
+}
 - (void) didMoveToView:(SKView *)view {
   swipeRightGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
   [swipeRightGesture setDirection:UISwipeGestureRecognizerDirectionRight];
@@ -172,7 +188,9 @@
   }else if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskBullet) {
     CreepNode *creep = (CreepNode*) firstBody.node;
     TowerNode *tower = (TowerNode*) secondBody.node.parent;
-    [tower damageEnemy:creep];
+    [tower damageEnemy:creep onKill:^{
+      [self didKillEnemy];
+    }];
   }
 }
 

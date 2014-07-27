@@ -56,12 +56,13 @@
   }];
 
 }
--(void)damageEnemy:(CreepNode*)enemy {
+-(void) damageEnemy:(CreepNode*) enemy onKill:(void (^)()) killHandler {
   enemy.health = enemy.health - self.damage;
-  if (enemy.health < 0) {
+  if (enemy.health <= 0) {
     [enemy removeFromParent];
     self.target = nil;
     NSLog(@"Creep killed");
+    killHandler();
   }
 }
 - (float)getRotationWithPoint:(CGPoint)spoint endPoint:(CGPoint)epoint {

@@ -22,6 +22,8 @@
 @property (nonatomic) NSTimeInterval timeOfLastMove;
 @property (nonatomic, strong) NSArray *waveData;
 @property (nonatomic) int waveNumber;
+@property (nonatomic) int score;
 @property (nonatomic, strong) SKAction* followline;
 - (void) addCreepWave;
+- (void) didKillEnemy;
 @end
