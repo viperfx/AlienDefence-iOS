@@ -259,15 +259,17 @@
         for (NSValue *base in _towerBaseBounds) {
           CGRect baseRect = [base CGRectValue];
           if (CGRectContainsPoint(baseRect, touchLocation)) {
-            int turret_no = [[_selectedTower.userData objectForKey:@"number"] intValue];
-            TowerNode *turretPlaced = [TowerNode towerOfType:(TowerType)turret_no withLevel:1];
-            [turretPlaced setPosition:[[_towerBases objectAtIndex:[_towerBaseBounds indexOfObject:base]]CGPointValue]];
-            //[turretPlaced debugDrawWithScene:self];
-            _score -= [[_selectedTower.userData objectForKey:@"cost"] intValue];
-            [self updateHUD];
-            [self addChild:turretPlaced];
-            [_towers addObject:turretPlaced];
-            _isTowerSelected = NO;
+            if (_score >= [[_selectedTower.userData objectForKey:@"cost"] intValue]) {
+              int turret_no = [[_selectedTower.userData objectForKey:@"number"] intValue];
+              TowerNode *turretPlaced = [TowerNode towerOfType:(TowerType)turret_no withLevel:1];
+              [turretPlaced setPosition:[[_towerBases objectAtIndex:[_towerBaseBounds indexOfObject:base]]CGPointValue]];
+              //[turretPlaced debugDrawWithScene:self];
+              _score -= [[_selectedTower.userData objectForKey:@"cost"] intValue];
+              [self updateHUD];
+              [self addChild:turretPlaced];
+              [_towers addObject:turretPlaced];
+              _isTowerSelected = NO;
+            }
           }
         }
         
@@ -280,7 +282,7 @@
 		_selectedTower = touchedNode;
   
     
-		if([[touchedNode name] isEqualToString:@"movable"]) {
+		if([[touchedNode name] isEqualToString:@"movable"] && (_score >= [[_selectedTower.userData objectForKey:@"cost"] intValue])) {
       [_selectedTower setScale:1.5f];
       _isTowerSelected = YES;
 			SKAction *sequence = [SKAction sequence:@[[SKAction rotateByAngle:degToRad(-6.0f) duration:0.1],
