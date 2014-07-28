@@ -113,7 +113,7 @@
       [turretIconSprite setName:@"movable"];
       [turretIconSprite setColor:[SKColor blackColor]];
       [turretIconSprite setColorBlendFactor:0.8];
-      turretIconSprite.userData = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:([turretIconNames indexOfObject:turretIconName]+1)*100] forKey:@"cost"];
+      turretIconSprite.userData = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:([turretIconNames indexOfObject:turretIconName]+1)*50] forKey:@"cost"];
       [turretIconSprite.userData setObject:[NSNumber numberWithInt:[turretIconNames indexOfObject:turretIconName]+1] forKey:@"number"];
       [turretIconSprite setPosition:CGPointMake(CGRectGetMaxX(self.frame)-250+[turretIconNames indexOfObject:turretIconName]*40, 30)];
       [self addChild:turretIconSprite];
@@ -284,7 +284,8 @@
         for (NSValue *base in _towerBaseBounds) {
           CGRect baseRect = [base CGRectValue];
           if (CGRectContainsPoint(baseRect, touchLocation)) {
-            TowerNode *turretPlaced = [TowerNode towerOfType:TowerOne withLevel:3];
+            int turret_no = [[_selectedTower.userData objectForKey:@"number"] intValue];
+            TowerNode *turretPlaced = [TowerNode towerOfType:(TowerType)turret_no withLevel:1];
             [turretPlaced setPosition:[[_towerBases objectAtIndex:[_towerBaseBounds indexOfObject:base]]CGPointValue]];
             //[turretPlaced debugDrawWithScene:self];
             _score -= [[_selectedTower.userData objectForKey:@"cost"] intValue];
@@ -312,6 +313,9 @@
                                                 [SKAction rotateByAngle:degToRad(6.0f) duration:0.1]]];
 			[_selectedTower runAction:[SKAction repeatActionForever:sequence]];
 		}
+    if([[touchedNode name] isEqualToString:@"tower"]) {
+      NSLog(@"tap turret");
+    }
 	}
 }
 

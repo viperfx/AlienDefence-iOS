@@ -9,42 +9,66 @@
 #import "TowerNode.h"
 #import "CreepNode.h"
 #import "Util.h"
-@implementation TowerNode
-+(instancetype) towerOfType:(TowerType)type withLevel:(NSInteger)level{
-  TowerNode *tower;
-  tower = [self spriteNodeWithImageNamed:[NSString stringWithFormat:@"turret-%d-%d",type, level]];
-  tower.anchorPoint = CGPointMake(0.5, 0.5);
-  tower.name = @"tower";
-  tower.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:50];
-  tower.physicsBody.dynamic = YES;
-  tower.physicsBody.affectedByGravity = NO;
-  tower.physicsBody.categoryBitMask = CollisionMaskTower;
-  tower.physicsBody.contactTestBitMask = CollisionMaskCreep;
-  tower.physicsBody.collisionBitMask = 0;
-  tower.damage = 10;
-  tower.zPosition = 1;
-  tower.targets = [[NSMutableArray alloc] init];
-  return tower;
-}
--(void) shootAtTarget:(SKSpriteNode*)target {
-  if (self.zRotation < 0) {
-    self.zRotation = self.zRotation + M_PI * 2;
-  }
-  float angle = [self getRotationWithPoint:self.position endPoint:target.position];
-//  self.zRotation = angle;
-  SKSpriteNode *bullet = [SKSpriteNode spriteNodeWithImageNamed:@"bullet_2"];
-//  bullet.position = CGPointMake(self.position.x, self.position.y);
-  bullet.color = [SKColor blueColor];
+
+@implementation BulletNode
+
++(instancetype)bulletOfType:(int)type withColor:(UIColor *)color {
+  BulletNode *bullet;
+  bullet = [self spriteNodeWithImageNamed:[NSString stringWithFormat:@"bullet_%d", type]];
+  bullet.color = color;
   bullet.colorBlendFactor = 0.8;
   bullet.name = @"bullet";
   bullet.anchorPoint = CGPointMake(0.5, 0.5);
-  bullet.zRotation = angle;
   bullet.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(1, 1)];
   bullet.physicsBody.dynamic = NO;
   bullet.physicsBody.categoryBitMask = CollisionMaskBullet;
   bullet.physicsBody.contactTestBitMask = CollisionMaskCreep;
   bullet.physicsBody.collisionBitMask = 0;
   bullet.zPosition = 0;
+  return bullet;
+}
+
+@end
+
+@implementation TowerNode
++(instancetype) towerOfType:(TowerType)type withLevel:(NSInteger)level{
+  TowerNode *tower;
+  tower = [self spriteNodeWithImageNamed:[NSString stringWithFormat:@"turret-%d-%d",type, level]];
+  tower.anchorPoint = CGPointMake(0.5, 0.5);
+  tower.name = @"tower";
+  tower.level = level;
+  tower.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:50];
+  tower.physicsBody.dynamic = YES;
+  tower.physicsBody.affectedByGravity = NO;
+  tower.physicsBody.categoryBitMask = CollisionMaskTower;
+  tower.physicsBody.contactTestBitMask = CollisionMaskCreep;
+  tower.physicsBody.collisionBitMask = 0;
+  tower.zPosition = 1;
+  tower.targets = [[NSMutableArray alloc] init];
+  if (type == TowerOne) {
+    tower.damage = 10;
+    tower.bulletType = 2;
+    tower.bulletColor = [UIColor blueColor];
+  }else if (type == TowerTwo) {
+    tower.damage = 20;
+    tower.bulletType = 3;
+    tower.bulletColor = [UIColor greenColor];
+  }else if (type == TowerThree) {
+    tower.damage = 15;
+    tower.bulletType = 4;
+    tower.bulletColor = [UIColor redColor];
+  }else if (type == TowerFour) {
+    tower.damage = 20;
+    tower.bulletType = 5;
+    tower.bulletColor = [UIColor orangeColor];
+  }
+  return tower;
+}
+
+-(void) shootAtTarget:(SKSpriteNode*)target {
+  float angle = [self getRotationWithPoint:self.position endPoint:target.position];
+  SKSpriteNode *bullet = [BulletNode bulletOfType:_bulletType withColor:_bulletColor];
+  bullet.zRotation = angle;
   [self runAction:[SKAction rotateToAngle:angle duration:0] completion:^{
     [self addChild:bullet];
     CGPoint creepPoint = [self convertPoint:target.position fromNode:self.parent];
