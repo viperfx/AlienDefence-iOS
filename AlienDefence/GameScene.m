@@ -23,7 +23,7 @@
     SKSpriteNode *ship = [SKSpriteNode spriteNodeWithImageNamed:@"ship_dmg_low"];
     ship.position = CGPointMake(CGRectGetMaxX(self.frame)-ship.frame.size.width/2, CGRectGetMidY(self.frame));
     [self addChild:ship];
-    _score = 0;
+    _score = 100;
     SKSpriteNode *panels = [SKSpriteNode spriteNodeWithImageNamed:@"hud_points"];
     panels.position = CGPointMake(29, 15);
     panels.anchorPoint = CGPointMake(0, 0);
@@ -93,35 +93,42 @@
     //upgrade.yScale = 1.5;
     //upgrade.xScale = 1.5;
     //[self addChild:upgrade];
+    
+    
+    /* Add Two Turrets at start!
     TowerNode *turretOne = [TowerNode towerOfType:TowerOne withLevel:1];
     TowerNode *turretTwo = [TowerNode towerOfType:TowerTwo withLevel:2];
     turretOne.position = [[self.towerBases objectAtIndex:0] CGPointValue];
     turretTwo.position = [[self.towerBases objectAtIndex:1] CGPointValue];
-    _towers = [[NSMutableArray alloc] init];
-    _creeps = [[NSMutableArray alloc] init];
-    _towerBaseBounds = [[NSMutableArray alloc] init];
     [self.towers addObject:turretOne];
     [self.towers addObject:turretTwo];
     [self addChild:turretOne];
     [self addChild:turretTwo];
+    */
+    
     _isTowerSelected = NO;
     NSArray *turretIconNames = @[@"turret-1-icon", @"turret-2-icon", @"turret-3-icon", @"turret-4-icon", @"turret-5-icon"];
     for (NSString *turretIconName in turretIconNames) {
       SKSpriteNode *turretIconSprite = [SKSpriteNode spriteNodeWithImageNamed:turretIconName];
       [turretIconSprite setName:@"movable"];
+      [turretIconSprite setColor:[SKColor blackColor]];
+      [turretIconSprite setColorBlendFactor:0.8];
       [turretIconSprite setPosition:CGPointMake(CGRectGetMaxX(self.frame)-100-[turretIconNames indexOfObject:turretIconName]*40, 30)];
       [self addChild:turretIconSprite];
     }
-// Tower debug range
-//    for (TowerNode *tower in _towers) {
-//        CGMutablePathRef circle = CGPathCreateMutable();
-//        CGPathAddArc(circle, NULL, tower.position.x, tower.position.y, 50, 0, 2*M_PI, true);
-//        CGPathCloseSubpath(circle);
-//        SKShapeNode *shape = [SKShapeNode node];
-//        shape.path = circle;
-//        shape.strokeColor = [SKColor colorWithRed:1.0 green:0 blue:0 alpha:0.2];
-//        [self addChild:shape];
-//    }
+    /*  Tower debug range
+    for (TowerNode *tower in _towers) {
+        CGMutablePathRef circle = CGPathCreateMutable();
+        CGPathAddArc(circle, NULL, tower.position.x, tower.position.y, 50, 0, 2*M_PI, true);
+        CGPathCloseSubpath(circle);
+        SKShapeNode *shape = [SKShapeNode node];
+        shape.path = circle;
+        shape.strokeColor = [SKColor colorWithRed:1.0 green:0 blue:0 alpha:0.2];
+        [self addChild:shape];
+    }*/
+    _towers = [[NSMutableArray alloc] init];
+    _creeps = [[NSMutableArray alloc] init];
+    _towerBaseBounds = [[NSMutableArray alloc] init];
     for (NSValue *base in _towerBases) {
       CGPoint basePoint = [base CGPointValue];
       CGRect baseRect = CGRectMake(basePoint.x, basePoint.y, 0, 0);
@@ -134,7 +141,7 @@
 }
 - (void) addCreepWave {
   NSDictionary *creepWave = [_waveData objectAtIndex:_waveNumber];
-  SKAction *wait = [SKAction waitForDuration:5];
+  SKAction *wait = [SKAction waitForDuration:2];
   SKAction *performSelector = [SKAction performSelector:@selector(addCreep) onTarget:self];
   SKAction *sequence = [SKAction sequence:@[performSelector, wait]];
   SKAction *repeat   = [SKAction repeatAction:sequence count:[[creepWave objectForKey:@"count"] intValue]];
@@ -184,7 +191,7 @@
   if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskTower) {
     CreepNode *creep = (CreepNode*) firstBody.node;
     TowerNode *tower = (TowerNode*) secondBody.node;
-    tower.target = creep;
+    [tower.targets addObject:creep];
   }else if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskBullet) {
     CreepNode *creep = (CreepNode*) firstBody.node;
     TowerNode *tower = (TowerNode*) secondBody.node.parent;
@@ -211,11 +218,7 @@
   if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskTower) {
     TowerNode *tower = (TowerNode*) secondBody.node;
     CreepNode *creep = (CreepNode*) firstBody.node;
-    if (tower.target == creep) {
-      tower.target = nil;
-    }
-  }else if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskBullet) {
-//    NSLog(@"Creep Hit!");
+    [tower.targets removeObject:creep];
   }
 }
 - (void) handleSwipeRight:(UISwipeGestureRecognizer*) recogniser {
@@ -258,6 +261,7 @@
             TowerNode *turretPlaced = [TowerNode towerOfType:TowerOne withLevel:3];
             
             [turretPlaced setPosition:[[_towerBases objectAtIndex:[_towerBaseBounds indexOfObject:base]]CGPointValue]];
+            [turretPlaced debugDrawWithScene:self];
             [self addChild:turretPlaced];
             [_towers addObject:turretPlaced];
             _isTowerSelected = NO;
@@ -288,10 +292,17 @@
   if (currentTime - self.timeOfLastMove < 0.5) return;
   [self enumerateChildNodesWithName:@"tower" usingBlock:^(SKNode *node, BOOL *stop) {
     TowerNode *tower = (TowerNode*) node;
-    if (tower.target) {
-      [tower pointToTargetAtPoint:tower.target];
+    @try {
+      CreepNode *target = [tower.targets objectAtIndex:0];
+      if (target.health <= 0) {
+        [tower.targets removeObjectAtIndex:0];
+      }else {
+        [tower shootAtTarget:target];
+      }
     }
-    
+    @catch (NSException *exception) {
+      //do nothing
+    }
   }];
   self.timeOfLastMove = currentTime;
 }

@@ -23,20 +23,19 @@
   tower.physicsBody.collisionBitMask = 0;
   tower.damage = 10;
   tower.zPosition = 1;
+  tower.targets = [[NSMutableArray alloc] init];
   return tower;
 }
--(void) pointToTargetAtPoint:(SKSpriteNode*)target {
+-(void) shootAtTarget:(SKSpriteNode*)target {
   if (self.zRotation < 0) {
     self.zRotation = self.zRotation + M_PI * 2;
   }
   float angle = [self getRotationWithPoint:self.position endPoint:target.position];
-  
 //  self.zRotation = angle;
   SKSpriteNode *bullet = [SKSpriteNode spriteNodeWithImageNamed:@"bullet_2"];
 //  bullet.position = CGPointMake(self.position.x, self.position.y);
-  bullet.color = [SKColor greenColor];
-  bullet.colorBlendFactor = 0.7;
-//  bullet.alpha = 0.4;
+  bullet.color = [SKColor blueColor];
+  bullet.colorBlendFactor = 0.8;
   bullet.name = @"bullet";
   bullet.anchorPoint = CGPointMake(0.5, 0.5);
   bullet.zRotation = angle;
@@ -56,12 +55,20 @@
   }];
 
 }
+-(void) debugDrawWithScene:(SKScene *)scene {
+  CGMutablePathRef circle = CGPathCreateMutable();
+  CGPathAddArc(circle, NULL, self.position.x, self.position.y, 50, 0, 2*M_PI, true);
+  CGPathCloseSubpath(circle);
+  SKShapeNode *shape = [SKShapeNode node];
+  shape.path = circle;
+  shape.strokeColor = [SKColor colorWithRed:1.0 green:0 blue:0 alpha:0.2];
+  [scene addChild:shape];
+}
 -(void) damageEnemy:(CreepNode*) enemy onKill:(void (^)()) killHandler {
   enemy.health = enemy.health - self.damage;
   if (enemy.health <= 0) {
     [enemy removeFromParent];
-    self.target = nil;
-    NSLog(@"Creep killed");
+    //NSLog(@"Creep killed");
     killHandler();
   }
 }
