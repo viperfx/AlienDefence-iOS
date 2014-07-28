@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C477A461982686400458DF9 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C477A451982686400458DF9 /* Util.m */; };
-		3C477A891985B2EE00458DF9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3C477A881985B2EE00458DF9 /* README.md */; };
+		3C477A891985B2EE00458DF9 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C477A881985B2EE00458DF9 /* README.txt */; };
 		3CB84BF5197C0DB60098F11B /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3CB84BF4197C0DB60098F11B /* Sprites.atlas */; };
 		3CB84BFB197C16740098F11B /* TitleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB84BFA197C16740098F11B /* TitleScene.m */; };
 		3CB84BFF197C17B90098F11B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CB84BFE197C17B90098F11B /* Images.xcassets */; };
@@ -45,7 +45,7 @@
 /* Begin PBXFileReference section */
 		3C477A441982686400458DF9 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		3C477A451982686400458DF9 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
-		3C477A881985B2EE00458DF9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		3C477A881985B2EE00458DF9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		3CB84BF4197C0DB60098F11B /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sprites.atlas; sourceTree = "<group>"; };
 		3CB84BF9197C16740098F11B /* TitleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleScene.h; sourceTree = "<group>"; };
 		3CB84BFA197C16740098F11B /* TitleScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleScene.m; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 		3CF222D81979AAB0002EBC44 = {
 			isa = PBXGroup;
 			children = (
-				3C477A881985B2EE00458DF9 /* README.md */,
+				3C477A881985B2EE00458DF9 /* README.txt */,
 				3CF222EC1979AAB0002EBC44 /* AlienDefence */,
 				3CF223101979AAB1002EBC44 /* AlienDefenceTests */,
 				3CF222E31979AAB0002EBC44 /* Frameworks */,
@@ -270,7 +270,7 @@
 			files = (
 				3CF222F11979AAB0002EBC44 /* InfoPlist.strings in Resources */,
 				3CB84BFF197C17B90098F11B /* Images.xcassets in Resources */,
-				3C477A891985B2EE00458DF9 /* README.md in Resources */,
+				3C477A891985B2EE00458DF9 /* README.txt in Resources */,
 				3CB84BF5197C0DB60098F11B /* Sprites.atlas in Resources */,
 				3CF222FA1979AAB0002EBC44 /* Main.storyboard in Resources */,
 			);

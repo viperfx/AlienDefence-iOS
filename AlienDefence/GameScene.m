@@ -23,7 +23,7 @@
     SKSpriteNode *ship = [SKSpriteNode spriteNodeWithImageNamed:@"ship_dmg_low"];
     ship.position = CGPointMake(CGRectGetMaxX(self.frame)-ship.frame.size.width/2, CGRectGetMidY(self.frame));
     [self addChild:ship];
-    _score = 100;
+    _score = 90;
     SKSpriteNode *panels = [SKSpriteNode spriteNodeWithImageNamed:@"hud_points"];
     panels.position = CGPointMake(29, 15);
     panels.anchorPoint = CGPointMake(0, 0);
@@ -107,15 +107,18 @@
     */
     
     _isTowerSelected = NO;
-    NSArray *turretIconNames = @[@"turret-1-icon", @"turret-2-icon", @"turret-3-icon", @"turret-4-icon", @"turret-5-icon"];
+    NSArray *turretIconNames = @[@"turret-1-icon",@"turret-2-icon",@"turret-3-icon", @"turret-4-icon",@"turret-5-icon"];
     for (NSString *turretIconName in turretIconNames) {
       SKSpriteNode *turretIconSprite = [SKSpriteNode spriteNodeWithImageNamed:turretIconName];
       [turretIconSprite setName:@"movable"];
       [turretIconSprite setColor:[SKColor blackColor]];
       [turretIconSprite setColorBlendFactor:0.8];
-      [turretIconSprite setPosition:CGPointMake(CGRectGetMaxX(self.frame)-100-[turretIconNames indexOfObject:turretIconName]*40, 30)];
+      turretIconSprite.userData = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:([turretIconNames indexOfObject:turretIconName]+1)*100] forKey:@"cost"];
+      [turretIconSprite.userData setObject:[NSNumber numberWithInt:[turretIconNames indexOfObject:turretIconName]+1] forKey:@"number"];
+      [turretIconSprite setPosition:CGPointMake(CGRectGetMaxX(self.frame)-250+[turretIconNames indexOfObject:turretIconName]*40, 30)];
       [self addChild:turretIconSprite];
     }
+    [self didKillEnemy];
     /*  Tower debug range
     for (TowerNode *tower in _towers) {
         CGMutablePathRef circle = CGPathCreateMutable();
@@ -164,6 +167,29 @@
   SKNode *hud = [self childNodeWithName:@"hud"];
   SKLabelNode *label = (SKLabelNode*)[hud childNodeWithName:@"scoreNode"];
   [label setText:[NSString stringWithFormat:@"%d", _score+=10]];
+  [self enumerateChildNodesWithName:@"movable" usingBlock:^(SKNode *node, BOOL *stop) {
+    NSInteger cost = [[node.userData objectForKey:@"cost"] intValue];
+    SKSpriteNode *towerIcon = (SKSpriteNode*) node;
+    if (cost <= _score) {
+      [towerIcon setColorBlendFactor:0];
+    }else {
+      [towerIcon setColorBlendFactor:0.8];
+    }
+  }];
+}
+-(void) updateHUD {
+  SKNode *hud = [self childNodeWithName:@"hud"];
+  SKLabelNode *label = (SKLabelNode*)[hud childNodeWithName:@"scoreNode"];
+  [label setText:[NSString stringWithFormat:@"%d", _score]];
+  [self enumerateChildNodesWithName:@"movable" usingBlock:^(SKNode *node, BOOL *stop) {
+    NSInteger cost = [[node.userData objectForKey:@"cost"] intValue];
+    SKSpriteNode *towerIcon = (SKSpriteNode*) node;
+    if (cost <= _score) {
+      [towerIcon setColorBlendFactor:0];
+    }else {
+      [towerIcon setColorBlendFactor:0.8];
+    }
+  }];
 }
 - (void) didMoveToView:(SKView *)view {
   swipeRightGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
@@ -259,9 +285,10 @@
           CGRect baseRect = [base CGRectValue];
           if (CGRectContainsPoint(baseRect, touchLocation)) {
             TowerNode *turretPlaced = [TowerNode towerOfType:TowerOne withLevel:3];
-            
             [turretPlaced setPosition:[[_towerBases objectAtIndex:[_towerBaseBounds indexOfObject:base]]CGPointValue]];
-            [turretPlaced debugDrawWithScene:self];
+            //[turretPlaced debugDrawWithScene:self];
+            _score -= [[_selectedTower.userData objectForKey:@"cost"] intValue];
+            [self updateHUD];
             [self addChild:turretPlaced];
             [_towers addObject:turretPlaced];
             _isTowerSelected = NO;
