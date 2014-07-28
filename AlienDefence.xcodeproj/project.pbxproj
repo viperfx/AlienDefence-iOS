@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3C477A461982686400458DF9 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C477A451982686400458DF9 /* Util.m */; };
 		3C477A891985B2EE00458DF9 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C477A881985B2EE00458DF9 /* README.txt */; };
+		3C477A8C1986A69E00458DF9 /* GameOver.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C477A8B1986A69E00458DF9 /* GameOver.m */; };
+		3C477A8F1986A86800458DF9 /* GameWin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C477A8E1986A86800458DF9 /* GameWin.m */; };
 		3CB84BF5197C0DB60098F11B /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3CB84BF4197C0DB60098F11B /* Sprites.atlas */; };
 		3CB84BFB197C16740098F11B /* TitleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB84BFA197C16740098F11B /* TitleScene.m */; };
 		3CB84BFF197C17B90098F11B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CB84BFE197C17B90098F11B /* Images.xcassets */; };
@@ -46,6 +48,10 @@
 		3C477A441982686400458DF9 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		3C477A451982686400458DF9 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		3C477A881985B2EE00458DF9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		3C477A8A1986A69E00458DF9 /* GameOver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOver.h; sourceTree = "<group>"; };
+		3C477A8B1986A69E00458DF9 /* GameOver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOver.m; sourceTree = "<group>"; };
+		3C477A8D1986A86800458DF9 /* GameWin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameWin.h; sourceTree = "<group>"; };
+		3C477A8E1986A86800458DF9 /* GameWin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameWin.m; sourceTree = "<group>"; };
 		3CB84BF4197C0DB60098F11B /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sprites.atlas; sourceTree = "<group>"; };
 		3CB84BF9197C16740098F11B /* TitleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleScene.h; sourceTree = "<group>"; };
 		3CB84BFA197C16740098F11B /* TitleScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleScene.m; sourceTree = "<group>"; };
@@ -143,6 +149,10 @@
 				3C477A451982686400458DF9 /* Util.m */,
 				3CB84BF9197C16740098F11B /* TitleScene.h */,
 				3CB84BFA197C16740098F11B /* TitleScene.m */,
+				3C477A8A1986A69E00458DF9 /* GameOver.h */,
+				3C477A8B1986A69E00458DF9 /* GameOver.m */,
+				3C477A8D1986A86800458DF9 /* GameWin.h */,
+				3C477A8E1986A86800458DF9 /* GameWin.m */,
 				3CB84C00197C19190098F11B /* GameScene.h */,
 				3CB84C01197C19190098F11B /* GameScene.m */,
 				3CB84C03197C297B0098F11B /* CreepNode.h */,
@@ -292,6 +302,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CB84BFB197C16740098F11B /* TitleScene.m in Sources */,
+				3C477A8C1986A69E00458DF9 /* GameOver.m in Sources */,
+				3C477A8F1986A86800458DF9 /* GameWin.m in Sources */,
 				3CB84C0B197C3DE70098F11B /* TileNode.m in Sources */,
 				3CF222FD1979AAB1002EBC44 /* ViewController.m in Sources */,
 				3CB84C02197C19190098F11B /* GameScene.m in Sources */,

@@ -11,6 +11,8 @@
 #import "TileNode.h"
 #import "TowerNode.h"
 #import "Util.h"
+#import "GameOver.h"
+#import "GameWin.h"
 @implementation GameScene
 
 -(id)initWithSize:(CGSize)size {
@@ -68,6 +70,7 @@
                   @{@"creepType": [NSNumber numberWithInteger:CreepTwo], @"count": @10}
                   ];
     _waveNumber = 0;
+    _killCount = 0;
     SKAction *wait = [SKAction waitForDuration:50];
     SKAction *performSelector = [SKAction performSelector:@selector(addCreepWave) onTarget:self];
     SKAction *sequence = [SKAction sequence:@[performSelector, wait]];
@@ -81,30 +84,15 @@
     CGPathAddLineToPoint(path, NULL, 66, 215);
     CGPathAddLineToPoint(path, NULL, 68, 300);
     CGPathAddLineToPoint(path, NULL, 500, 300);
-    SKShapeNode *shape = [SKShapeNode node];
-    shape.path = path;
-    shape.strokeColor = [SKColor colorWithRed:1.0 green:0 blue:0 alpha:0.2];
-    shape.lineWidth = 1.0;
-    [self addChild:shape];
     _followline = [SKAction followPath:path asOffset:NO orientToPath:YES duration:100];
     
+    
+    //TODO Upgrade Tower Mechanism
     //SKSpriteNode *upgrade = [SKSpriteNode spriteNodeWithImageNamed:@"upgrade"];
     //upgrade.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     //upgrade.yScale = 1.5;
     //upgrade.xScale = 1.5;
     //[self addChild:upgrade];
-    
-    
-    /* Add Two Turrets at start!
-    TowerNode *turretOne = [TowerNode towerOfType:TowerOne withLevel:1];
-    TowerNode *turretTwo = [TowerNode towerOfType:TowerTwo withLevel:2];
-    turretOne.position = [[self.towerBases objectAtIndex:0] CGPointValue];
-    turretTwo.position = [[self.towerBases objectAtIndex:1] CGPointValue];
-    [self.towers addObject:turretOne];
-    [self.towers addObject:turretTwo];
-    [self addChild:turretOne];
-    [self addChild:turretTwo];
-    */
     
     _isTowerSelected = NO;
     NSArray *turretIconNames = @[@"turret-1-icon",@"turret-2-icon",@"turret-3-icon", @"turret-4-icon",@"turret-5-icon"];
@@ -119,16 +107,6 @@
       [self addChild:turretIconSprite];
     }
     [self didKillEnemy];
-    /*  Tower debug range
-    for (TowerNode *tower in _towers) {
-        CGMutablePathRef circle = CGPathCreateMutable();
-        CGPathAddArc(circle, NULL, tower.position.x, tower.position.y, 50, 0, 2*M_PI, true);
-        CGPathCloseSubpath(circle);
-        SKShapeNode *shape = [SKShapeNode node];
-        shape.path = circle;
-        shape.strokeColor = [SKColor colorWithRed:1.0 green:0 blue:0 alpha:0.2];
-        [self addChild:shape];
-    }*/
     _towers = [[NSMutableArray alloc] init];
     _creeps = [[NSMutableArray alloc] init];
     _towerBaseBounds = [[NSMutableArray alloc] init];
@@ -159,7 +137,12 @@
   creep.position = CGPointMake(-10, 125);
   [self addChild:creep];
   [_creeps addObject:creep];
-  [creep runAction:_followline];
+  [creep runAction:_followline completion:^{
+    NSLog(@"game over");
+    GameOver *gameOver = [GameOver sceneWithSize:self.frame.size];
+    SKTransition *transition = [SKTransition crossFadeWithDuration:1.0];
+    [self.view presentScene:gameOver transition:transition];
+  }];
   NSLog(@"creep added");
   
 }
@@ -176,6 +159,12 @@
       [towerIcon setColorBlendFactor:0.8];
     }
   }];
+  if (_killCount++ >= 20) {
+    NSLog(@"You Win");
+    GameWin *gameWin = [GameWin sceneWithSize:self.frame.size];
+    SKTransition *transition = [SKTransition crossFadeWithDuration:1.0];
+    [self.view presentScene:gameWin transition:transition];
+  }
 }
 -(void) updateHUD {
   SKNode *hud = [self childNodeWithName:@"hud"];
@@ -190,15 +179,6 @@
       [towerIcon setColorBlendFactor:0.8];
     }
   }];
-}
-- (void) didMoveToView:(SKView *)view {
-  swipeRightGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
-  [swipeRightGesture setDirection:UISwipeGestureRecognizerDirectionRight];
-  [view addGestureRecognizer:swipeRightGesture];
-  
-  swipeLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
-  [swipeRightGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
-  [view addGestureRecognizer:swipeLeftGesture];
 }
 -(void)didBeginContact:(SKPhysicsContact *)contact {
   SKPhysicsBody* firstBody;
@@ -221,9 +201,11 @@
   }else if (firstBody.categoryBitMask == CollisionMaskCreep && secondBody.categoryBitMask == CollisionMaskBullet) {
     CreepNode *creep = (CreepNode*) firstBody.node;
     TowerNode *tower = (TowerNode*) secondBody.node.parent;
-    [tower damageEnemy:creep onKill:^{
-      [self didKillEnemy];
-    }];
+    if (creep.health > 0) {
+      [tower damageEnemy:creep onKill:^{
+        [self didKillEnemy];
+      }];
+    }
   }
 }
 
@@ -246,13 +228,6 @@
     CreepNode *creep = (CreepNode*) firstBody.node;
     [tower.targets removeObject:creep];
   }
-}
-- (void) handleSwipeRight:(UISwipeGestureRecognizer*) recogniser {
-  NSLog(@"Swipe Right");
-}
-
-- (void) handleSwipeLeft:(UISwipeGestureRecognizer*) recogniser {
-  NSLog(@"Swipe Left");
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

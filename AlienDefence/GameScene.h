@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSArray *waveData;
 @property (nonatomic) int waveNumber;
 @property (nonatomic) int score;
+@property (nonatomic) int killCount;
 @property (nonatomic, strong) SKAction* followline;
 - (void) addCreepWave;
 - (void) didKillEnemy;
