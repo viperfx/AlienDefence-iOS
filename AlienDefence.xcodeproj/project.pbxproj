@@ -15,6 +15,7 @@
 		3C477A971986B2EA00458DF9 /* Screenshot 2014.07.26 00.14.25.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C477A931986B2EA00458DF9 /* Screenshot 2014.07.26 00.14.25.png */; };
 		3C477A981986B2EA00458DF9 /* Screenshot 2014.07.28 17.27.57.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C477A941986B2EA00458DF9 /* Screenshot 2014.07.28 17.27.57.png */; };
 		3C477A991986B2EA00458DF9 /* Screenshot 2014.07.28 17.29.43.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C477A951986B2EA00458DF9 /* Screenshot 2014.07.28 17.29.43.png */; };
+		3C477A9B1986B8AB00458DF9 /* AlienDefenseDesignBoard.sketch in Resources */ = {isa = PBXBuildFile; fileRef = 3C477A9A1986B8AB00458DF9 /* AlienDefenseDesignBoard.sketch */; };
 		3CB84BF5197C0DB60098F11B /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3CB84BF4197C0DB60098F11B /* Sprites.atlas */; };
 		3CB84BFB197C16740098F11B /* TitleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB84BFA197C16740098F11B /* TitleScene.m */; };
 		3CB84BFF197C17B90098F11B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CB84BFE197C17B90098F11B /* Images.xcassets */; };
@@ -60,6 +61,7 @@
 		3C477A931986B2EA00458DF9 /* Screenshot 2014.07.26 00.14.25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2014.07.26 00.14.25.png"; sourceTree = "<group>"; };
 		3C477A941986B2EA00458DF9 /* Screenshot 2014.07.28 17.27.57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2014.07.28 17.27.57.png"; sourceTree = "<group>"; };
 		3C477A951986B2EA00458DF9 /* Screenshot 2014.07.28 17.29.43.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2014.07.28 17.29.43.png"; sourceTree = "<group>"; };
+		3C477A9A1986B8AB00458DF9 /* AlienDefenseDesignBoard.sketch */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AlienDefenseDesignBoard.sketch; sourceTree = "<group>"; };
 		3CB84BF4197C0DB60098F11B /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sprites.atlas; sourceTree = "<group>"; };
 		3CB84BF9197C16740098F11B /* TitleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleScene.h; sourceTree = "<group>"; };
 		3CB84BFA197C16740098F11B /* TitleScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleScene.m; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 		3CF222D81979AAB0002EBC44 = {
 			isa = PBXGroup;
 			children = (
+				3C477A9A1986B8AB00458DF9 /* AlienDefenseDesignBoard.sketch */,
 				3C477A911986B2EA00458DF9 /* screenshots */,
 				3C477A881985B2EE00458DF9 /* README.md */,
 				3CF222EC1979AAB0002EBC44 /* AlienDefence */,
@@ -307,6 +310,7 @@
 				3C477A971986B2EA00458DF9 /* Screenshot 2014.07.26 00.14.25.png in Resources */,
 				3CF222FA1979AAB0002EBC44 /* Main.storyboard in Resources */,
 				3C477A991986B2EA00458DF9 /* Screenshot 2014.07.28 17.29.43.png in Resources */,
+				3C477A9B1986B8AB00458DF9 /* AlienDefenseDesignBoard.sketch in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
